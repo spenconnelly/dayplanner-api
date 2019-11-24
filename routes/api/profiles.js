@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
-router.use(require('./profiles'));
+const mongoose = require('mongoose');
 
 module.exports = router;
