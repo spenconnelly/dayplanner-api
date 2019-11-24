@@ -1,0 +1,22 @@
+{
+  "name": "dayplanner-api",
+  "version": "1.0.0",
+  "description": "Express.js server for dayplanner-ui repo.  Uses MongoDB as a noSQL database to manage user events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spenconnelly/dayplanner-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spenconnelly/dayplanner-api/issues"
+  },
+  "homepage": "https://github.com/spenconnelly/dayplanner-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
