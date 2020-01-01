@@ -1,2 +1,4 @@
 # dayplanner-api
-Express.js server for dayplanner-ui repo.  Uses MongoDB as a noSQL database to manage user events.
+Apollo-Express Server for dayplanner-ui
+
+Supports GQL
