@@ -4,6 +4,7 @@
   "description": "Express.js server for dayplanner-ui repo.  Uses MongoDB as a noSQL database to manage user events.",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/js"
   },
@@ -18,9 +19,11 @@
   },
   "homepage": "https://github.com/spenconnelly/dayplanner-api#readme",
   "dependencies": {
+    "apollo-server-express": "^2.9.15",
     "express": "^4.17.1",
+    "graphql": "^14.5.8",
     "mongodb": "^3.3.4",
-    "mongoose": "^5.7.12"
+    "mongoose": "^5.8.3"
   },
   "devDependencies": {
     "eslint": "^6.7.0"
