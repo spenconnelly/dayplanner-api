@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const profileScheme = new mongoose.Schema ({
-    email: String
+    email: String,
+    createdDate: Date
 });
 
-const Profile = mongoose.model('Profile', profileScheme);
-
-module.exports = Profile;
+module.exports =  mongoose.model('Profile', profileScheme);

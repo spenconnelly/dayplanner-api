@@ -2,12 +2,14 @@ const Profile = require('./models/Profile');
 
 module.exports = {
     Query: {
-      hello: () => 'hello'
+      profiles: () => Profile.find()
     },
     Mutation: {
-      createProfile: (_, { email }) => {
-        const profile = new Profile({ email });
-        return profile.save();
+      createProfile: async (_, { email }) => {
+        const createdDate = new Date();
+        const profile = new Profile({ email, createdDate });
+        await profile.save();
+        return profile;
       }
     }
 };
