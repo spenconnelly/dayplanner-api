@@ -14,7 +14,16 @@ module.exports = {
     },
     Query: {
       profiles: () => Profile.find(),
-      events: () => Event.find()
+      events: () => Event.find(),
+      profile: (_, { id }) => Profile.findById(id, (err, res) => {
+          if (err) console.log(err);
+          return res;
+      }),
+      profileByEmail: (_, { email }) => Profile.findOne({ email }, (err, res) => {
+          if (err) console.log(err);
+          return res;
+        }),
+      event: (_, { id }) => Event.findById(id)
     },
     Mutation: {
       createProfile: async (_, { email }) => {
@@ -25,12 +34,12 @@ module.exports = {
         return profile;
       },
 
-      createEvent: async (_, { name, creator, date, description }) => {
-        const event = Event.create({ creator, name, date, description });
+      createEvent: async (_, { creator, name, date, description }) => {
+        const event = new Event({ creator, name, date, description });
         const profile = Profile.findById(creator);
 
         await profile.update(
-          { _id: creator },
+          { email: creator },
           { $push: { events: event } }
         );
 

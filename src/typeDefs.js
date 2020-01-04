@@ -21,6 +21,9 @@ module.exports = gql`
   type Query {
     profiles: [Profile]
     events: [Event]
+    profile(id: ID!): Profile
+    profileByEmail(email: String!): Profile
+    event(id: ID!): Event
   }
 
   type Mutation {
