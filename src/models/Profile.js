@@ -1,8 +1,11 @@
-const mongoose = require('mongoose');
+const { Schema, model} = require('mongoose');
 
-const profileScheme = new mongoose.Schema ({
-    email: String,
+const profileSchema = new Schema ({
+    email: { type: String, unique: true },
+    events: [
+        { type: Schema.ObjectId, ref: 'Event' }
+    ],
     createdDate: Date
 });
 
-module.exports =  mongoose.model('Profile', profileScheme);
+module.exports =  model('Profile', profileSchema);
