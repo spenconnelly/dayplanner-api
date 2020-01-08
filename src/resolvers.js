@@ -10,6 +10,9 @@ module.exports = {
     Event: {
       creator: async (event) => {
         return (await event.populate('creator').execPopulate()).creator;
+      },
+      participants: async (event) => {
+        return (await event.populate('participants').execPopulate()).participants;
       }
     },
     Query: {
@@ -35,12 +38,29 @@ module.exports = {
       },
 
       createEvent: async (_, { creator, name, date, description }) => {
-        const event = new Event({ creator, name, date, description });
+        const event = new Event({ creator, name, date, description, participants: [creator] });
         const profile = Profile.findById(creator);
 
         await profile.update(
-          { email: creator },
+          { _id: creator },
           { $push: { events: event } }
+        );
+
+        return event.save();
+      },
+
+      addEventParticipant: async (_, { eventId, profileId }) => {
+        const event = Event.findById(eventId);
+        const profile = Profile.findById(profileId);
+
+        await profile.update(
+          { _id: profileId },
+          { $push: { events: event } }
+        );
+
+        await event.update(
+          { _id: eventId },
+          { $push: { partipants: profile } }
         );
 
         return event;

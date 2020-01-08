@@ -5,17 +5,18 @@ module.exports = gql`
 
   type Event {
     id: ID!
-    creator: Profile
-    name: String
-    date: Date
+    creator: Profile!
+    participants: [Profile]
+    name: String!
+    date: Date!
     description: String
   }
 
   type Profile {
     id: ID!
-    email: String
+    email: String!
     events: [Event]
-    createdDate: Date
+    createdDate: Date!
   }
 
   type Query {
@@ -29,5 +30,6 @@ module.exports = gql`
   type Mutation {
     createProfile(email: String!): Profile
     createEvent(creator: ID!, name: String!, date: Date!, description: String): Event
+    addEventParticipant(eventId: ID!, profileId: ID!): Event
   }
 `;
