@@ -43,25 +43,33 @@ module.exports = {
 
         await profile.update(
           { _id: creator },
-          { $push: { events: event } }
+          { $push: { events: event, participants: event } }
         );
 
         return event.save();
       },
 
       addEventParticipant: async (_, { eventId, profileId }) => {
-        const event = Event.findById(eventId);
-        const profile = Profile.findById(profileId);
+        const event = Event.findById(eventId, (err, event) => {
+          if (err) {
+            return null;
+          }
 
-        await profile.update(
-          { _id: profileId },
-          { $push: { events: event } }
-        );
+          if (event) {
+            Profile.findById(profileId, (err, profile) => {
+              if (err) {
+                return null;
+              }
 
-        await event.update(
-          { _id: eventId },
-          { $push: { partipants: profile } }
-        );
+              if (profile && !event.participants.includes(profileId)) {
+                event.participants.push(profile.id);
+                profile.events.push(profile.id);
+                event.save();
+                profile.save();
+              }
+            });
+          }
+        });
 
         return event;
       }
