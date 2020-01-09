@@ -41,7 +41,7 @@ module.exports = {
         const event = new Event({ creator, name, date, description, participants: [creator] });
         const profile = Profile.findById(creator);
 
-        await profile.update(
+        await profile.updateOne(
           { _id: creator },
           { $push: { events: event, participants: event } }
         );
@@ -50,26 +50,15 @@ module.exports = {
       },
 
       addEventParticipant: async (_, { eventId, profileId }) => {
-        const event = Event.findById(eventId, (err, event) => {
-          if (err) {
-            return null;
-          }
+        const event = await Event.findById(eventId);
+        const profile = await Profile.findById(profileId);
 
-          if (event) {
-            Profile.findById(profileId, (err, profile) => {
-              if (err) {
-                return null;
-              }
-
-              if (profile && !event.participants.includes(profileId)) {
-                event.participants.push(profile.id);
-                profile.events.push(profile.id);
-                event.save();
-                profile.save();
-              }
-            });
-          }
-        });
+        if (event && profile) {
+          event.participants.push(profile.id);
+          profile.events.push(profile.id);
+          event.save();
+          profile.save();
+        }
 
         return event;
       }
