@@ -28,7 +28,7 @@ module.exports = gql`
   }
 
   type Mutation {
-    createProfile(email: String!): Profile
+    findOrCreateProfile(email: String!): Profile
     createEvent(creator: ID!, name: String!, date: Date!, description: String): Event
     addEventParticipant(eventId: ID!, profileId: ID!): Event
   }

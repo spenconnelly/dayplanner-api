@@ -7,33 +7,37 @@ module.exports = {
         return (await profile.populate('events').execPopulate()).events;
       }
     },
+
     Event: {
       creator: async (event) => {
         return (await event.populate('creator').execPopulate()).creator;
       },
+
       participants: async (event) => {
         return (await event.populate('participants').execPopulate()).participants;
       }
     },
+
     Query: {
       profiles: () => Profile.find(),
+
       events: () => Event.find(),
-      profile: (_, { id }) => Profile.findById(id, (err, res) => {
-          if (err) console.log(err);
-          return res;
-      }),
-      profileByEmail: (_, { email }) => Profile.findOne({ email }, (err, res) => {
-          if (err) console.log(err);
-          return res;
-        }),
+
+      profile: async (_, { id }) => await Profile.findById(id),
+
+      profileByEmail: async (_, { email }) => await Profile.findOne({ email }),
+
       event: (_, { id }) => Event.findById(id)
     },
-    Mutation: {
-      createProfile: async (_, { email }) => {
-        const createdDate = new Date();
-        const profile = new Profile({ email, createdDate });
-        await profile.save();
 
+    Mutation: {
+      findOrCreateProfile: async (_, { email }) => {
+        const profile = await Profile.findOne({ email });
+        if (!profile) {
+          const createdDate = new Date();
+          const newProfile = new Profile({ email, createdDate });
+          return newProfile.save();
+        }
         return profile;
       },
 
